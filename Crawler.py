@@ -1,24 +1,13 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from Config import WebConf, DBConf, UserAgent
-from Parser import IP138Parser, XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
+from Config import WebConf, UserAgent
+from Parser import XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
 
 import requests as rq
 import time
 import json
 import threading
-
-class ProxyChecker:
-    
-    @staticmethod
-    def checkAvailable( ip, port ):
-        url = 'http://2017.ip138.com/ic.asp'
-        headers = { "User-Agent": UserAgent.getUA() }
-        proxies = { 'http': 'http://' + ip + ':' + port }
-        r = rq.get( url, headers = headers, proxies = proxies, timeout = 10 )
-        html = r.content.decode( 'gb2312' )
-        return ip == IP138Parser.parseDocument( html )
 
 class Crawler:
     
