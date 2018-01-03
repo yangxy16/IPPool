@@ -13,19 +13,15 @@ class WebRequestHandler( BaseHTTPRequestHandler ):
         filepath, query = querypath.path, querypath.query
         if not filepath.endswith( '/' ):
             filepath = filepath + '/'
-        if filepath == '/' or filepath == '/getip/':
+        if filepath == '/getip/':
             self.send_response( 200 )
             self.end_headers()
             self.wfile.write( '114.114.114.114'.encode('utf-8') )
-        elif filepath == '/getall/':
+        elif filepath == '/delip/':
+            hash = query.split( '=' )[1]
             self.send_response( 200 )
             self.end_headers()
-            self.wfile.write( '114.114.114.114\r\n8.8.8.8'.encode('utf-8') )
-        elif filepath == '/del/':
-            id = query.split( '=' )[1]
-            self.send_response( 200 )
-            self.end_headers()
-            self.wfile.write( id.encode('utf-8') )
+            self.wfile.write( hash.encode('utf-8') )
         else:
             self.send_response( 404 )
             self.end_headers()

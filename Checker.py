@@ -1,7 +1,7 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from Config import DBConf, UserAgent
+from Config import UserAgent
 from Parser import IP138Parser
 
 import requests as rq
@@ -15,6 +15,6 @@ class ProxyChecker:
         url = 'http://2017.ip138.com/ic.asp'
         headers = { "User-Agent": UserAgent.getUA() }
         proxies = { 'http': 'http://' + ip + ':' + port }
-        r = rq.get( url, headers = headers, proxies = proxies, timeout = 10 )
+        r = rq.get( url, headers = headers, proxies = proxies, timeout = 3 )
         html = r.content.decode( 'gb2312' )
         return ip == IP138Parser.parseDocument( html )

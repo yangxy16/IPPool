@@ -3,6 +3,7 @@
 
 from Config import WebConf, UserAgent
 from Parser import XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
+from Checker import ProxyChecker
 
 import requests as rq
 import time
