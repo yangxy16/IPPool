@@ -7,6 +7,7 @@ pip install beautifulsoup4
 
 from bs4 import BeautifulSoup
 import re
+import hashlib
 
 class XiCiParser:
     
@@ -27,7 +28,7 @@ class XiCiParser:
             item[2] = str( item[2] )[4:-5]
             item[5] = str( item[5] )[4:-5].upper()
             if len( item[5] ) > 0 and item[5] != 'HTTPS':
-                ret.append( { 'SOURCE': 'XC', 'IP': item[1], 'PORT': item[2], 'TYPE': item[5], 'URI': 'http://' + item[1] + ':' + item[2] } )
+                ret.append( { 'SOURCE': 'XC', 'IP': item[1], 'PORT': item[2], 'TYPE': item[5], 'HASH': hashlib.md5( ('http://' + item[1] + ':' + item[2]).encode('utf-8') ).hexdigest() } )
         del result[ : ]
         return ret
         
@@ -50,7 +51,7 @@ class KuaiIPParser:
         for item in result:
             item[3] = item[3].upper()
             if len( item[3] ) > 0 and item[3] != 'HTTPS':
-                ret.append( { 'SOURCE': 'KUAI', 'IP': item[0], 'PORT': item[1], 'TYPE': item[3], 'URI': 'http://' + item[0] + ':' + item[1] } )
+                ret.append( { 'SOURCE': 'KUAI', 'IP': item[0], 'PORT': item[1], 'TYPE': item[3], 'HASH': hashlib.md5( ('http://' + item[0] + ':' + item[1]).encode('utf-8') ).hexdigest() } )
         del result[ : ]
         return ret
         
@@ -73,7 +74,7 @@ class IP181Parser:
         for item in result:
             item[3] = item[3].upper()
             if len( item[3] ) > 0 and item[3] != 'HTTPS':
-                ret.append( { 'SOURCE': '181', 'IP': item[0], 'PORT': item[1], 'TYPE': item[3], 'URI': 'http://' + item[0] + ':' + item[1] } )
+                ret.append( { 'SOURCE': '181', 'IP': item[0], 'PORT': item[1], 'TYPE': item[3], 'HASH': hashlib.md5( ('http://' + item[0] + ':' + item[1]).encode('utf-8') ).hexdigest() } )
         del result[ : ]
         return ret
         
@@ -97,6 +98,12 @@ class Data5UParser:
             except:
                 item[3] = ''
             if len( item[3] ) > 0 and item[3] != 'HTTPS':
-                ret.append( { 'SOURCE': '5U', 'IP': item[0], 'PORT': item[1], 'TYPE': item[3], 'URI': 'http://' + item[0] + ':' + item[1] } )
+                ret.append( { 'SOURCE': '5U', 'IP': item[0], 'PORT': item[1], 'TYPE': item[3], 'HASH': hashlib.md5( ('http://' + item[0] + ':' + item[1]).encode('utf-8') ).hexdigest() } )
         del result[ : ]
         return ret
+        
+class IP138Parser:
+    
+    @staticmethod
+    def parseDocument( html ):
+        return re.findall( r'您的IP是：\[(.*?)\]', html, re.I | re.M | re.S )[0]

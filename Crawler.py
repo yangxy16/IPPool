@@ -1,8 +1,8 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from Config import WebConf, DBConf
-from Parser import XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
+from Config import WebConf, DBConf, UserAgent
+from Parser import IP138Parser, XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
 
 import requests as rq
 import time
@@ -13,17 +13,22 @@ class ProxyChecker:
     
     @staticmethod
     def checkAvailable( ip, port ):
-        return True
+        url = 'http://2017.ip138.com/ic.asp'
+        headers = { "User-Agent": UserAgent.getUA() }
+        proxies = { 'http': 'http://' + ip + ':' + port }
+        r = rq.get( url, headers = headers, proxies = proxies, timeout = 10 )
+        html = r.content.decode( 'gb2312' )
+        return ip == IP138Parser.parseDocument( html )
 
 class Crawler:
     
     @staticmethod
     def getProxyIP():
         ips = []
-        headers = { "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36" }
-        
+
         def getIP181( ips ):
             for url in WebConf.IP181:
+                headers = { "User-Agent": UserAgent.getUA() }
                 r = rq.get( url, headers = headers )
                 if r.status_code == 200:
                     html = r.content.decode( 'gb2312' )
@@ -32,6 +37,7 @@ class Crawler:
                 
         def getXC( ips ):
             for url in WebConf.XICI:
+                headers = { "User-Agent": UserAgent.getUA() }
                 r = rq.get( url, headers = headers )
                 if r.status_code == 200:
                     html = r.content.decode( 'utf-8' )
@@ -40,6 +46,7 @@ class Crawler:
         
         def getKUAI( ips ):
             for url in WebConf.KUAIIP:
+                headers = { "User-Agent": UserAgent.getUA() }
                 r = rq.get( url, headers = headers )
                 if r.status_code == 200:
                     html = r.content.decode( 'utf-8' )
@@ -48,6 +55,7 @@ class Crawler:
         
         def get5U( ips ):
             for url in WebConf.DATA5U:
+                headers = { "User-Agent": UserAgent.getUA() }
                 r = rq.get( url, headers = headers )
                 if r.status_code == 200:
                     html = r.content.decode( 'utf-8' )
@@ -68,12 +76,13 @@ class Crawler:
             hThread.join()
             
         del hThreadTbl[ : ]
-
         return ips
         
 if __name__ == '__main__':
+    s = time.time()
     with open( "iplist.txt", "wb" ) as f:
         for ip in Crawler.getProxyIP():
             ip = json.dumps( ip, ensure_ascii = False )
             f.write( bytes( ip, 'utf-8' ) )
             f.write( b'\r\n' )
+    print( "耗时：%.2f秒" % ( time.time() - s ) )
