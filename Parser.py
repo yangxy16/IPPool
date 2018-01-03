@@ -1,10 +1,6 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-'''
-pip install beautifulsoup4
-'''
-
 from bs4 import BeautifulSoup
 import re
 import hashlib
