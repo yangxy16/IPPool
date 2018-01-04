@@ -6,15 +6,32 @@ import pymysql.cursors
 
 class DBHelper:
     def __enter__( self ):
-        self.connection = pymysql.connect( host = DBConf.IP, port = DBConf.PORT, 
-                                            user = DBConf.User, password = DBConf.PassWord, 
-                                            db = DBConf.DBName, charset = 'utf8mb4', 
-                                            cursorclass = pymysql.cursors.DictCursor )
+        try:
+            self.connection = pymysql.connect( host = DBConf.IP, port = DBConf.PORT, 
+                                                user = DBConf.User, password = DBConf.PassWord, 
+                                                db = DBConf.DBName, charset = 'utf8mb4', 
+                                                cursorclass = pymysql.cursors.DictCursor )
+        except:
+            self.connection = None
+            raise RuntimeError( 'MySQL Connect Failed' )
+            
+        return self
                                             
     def __exit__( self, type, value, trace ):
-        self.connection.close()
+        if self.connection:
+            self.connection.close()
+            
+    def getRandomIP( self ):
+        pass
         
+    def getAllIP( self ):
+        pass
         
+    def delIP( self, hash ):
+        pass
+        
+    def addIP( self, ip, port, hash ):
+        pass
         
 '''
 sql_id = 'SELECT id,uid FROM ls_case_id WHERE uid in ({})'.format(idStrList)

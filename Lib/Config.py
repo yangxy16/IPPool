@@ -50,7 +50,7 @@ class DBConf:
     IP          = '127.0.0.1'
     PORT        = 3306
     DBName      = 'IPPool'
-    User        = 'root'
+    User        = 'dayu'
     PassWord    = '123456'
     
 class UserAgent:
