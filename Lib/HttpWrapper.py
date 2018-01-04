@@ -48,4 +48,4 @@ class HttpWrapper:
         try:
             httpd.serve_forever()
         except:
-            raise SystemExit( 'HTTP Server Start Failed' )
+            raise SystemExit( 'HTTP Server Stopped' )
