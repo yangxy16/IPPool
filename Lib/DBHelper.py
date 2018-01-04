@@ -22,32 +22,35 @@ class DBHelper:
             self.connection.close()
             
     def getRandomIP( self ):
-        pass
-        
+        try :
+            with self.connection.cursor() as cursor :
+                cursor.execute( "SELECT * FROM `tblIPPool` AS t1 JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM `tblIPPool`)-(SELECT MIN(id) FROM `tblIPPool`))+(SELECT MIN(id) FROM `tblIPPool`)) AS id) AS t2 WHERE t1.id >= t2.id ORDER BY t1.id LIMIT 1" )
+                data = cursor.fetchone()
+                return data
+        except:
+            return None
+            
     def getAllIP( self ):
-        pass
+        try :
+            with self.connection.cursor() as cursor :
+                cursor.execute( "SELECT * FROM `tblIPPool`" )
+                data = cursor.fetchall()
+                return data
+        except:
+            return None
         
     def delIP( self, hash ):
-        pass
+        try :
+            with self.connection.cursor() as cursor :
+                cursor.execute( 'delete from tblIPPool where hash = %s', hash )
+            self.connection.commit()
+        except:
+            pass
         
     def addIP( self, ip, port, hash ):
-        pass
-        
-'''
-sql_id = 'SELECT id,uid FROM ls_case_id WHERE uid in ({})'.format(idStrList)
-    connection = pymysql.connect( host = '10.96.92.41', port = 3307, user = 'wx_case_info', password = 'ha1or2en3', db = 'wx_case_info', charset = 'utf8mb4', cursorclass = pymysql.cursors.DictCursor )
-    result = None
-    try :
-        with connection.cursor() as cursor :
-            cursor.execute( sql_id )
-            ls_case_id = cursor.fetchall()
-            result = {}
-            for v in ls_case_id:
-                result[v['uid']] = int(v['id']) % 100
-    except:
-        result = None
-    finally :
-        connection.close()
-    return result
-
-'''
+        try :
+            with self.connection.cursor() as cursor :
+                cursor.execute( 'INSERT INTO tblIPPool ( `hash`, `ip`, `port` ) values( %s, %s, %s )', ( hash, ip, port ) )
+            self.connection.commit()
+        except:
+            pass

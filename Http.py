@@ -14,9 +14,15 @@ class WebRequestHandler( BaseHTTPRequestHandler ):
         if not filepath.endswith( '/' ):
             filepath = filepath + '/'
         if filepath == '/getip/':
-            self.send_response( 200 )
-            self.end_headers()
-            self.wfile.write( '114.114.114.114'.encode('utf-8') )
+            with DBHelper() as db:
+                ip = db.getRandomIP()
+                if ip:
+                    self.send_response( 200 )
+                    self.end_headers()
+                    self.wfile.write( json.dumps( { 'IP' : ip['ip'], 'PORT' : str( ip['port'] ) }, ensure_ascii = False ).encode( 'utf-8' ) )
+                else:
+                    self.send_response( 404 )
+                    self.end_headers()
         else:
             self.send_response( 404 )
             self.end_headers()

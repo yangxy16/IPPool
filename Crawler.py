@@ -4,6 +4,8 @@
 from Lib.Config import WebConf, UserAgent
 from Lib.Parser import XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
 from Lib.Checker import ProxyChecker
+from Lib.AutoLock import AutoLock
+from Lib.DBHelper import DBHelper
 
 import requests as rq
 import time
@@ -24,7 +26,7 @@ class Crawler:
                     html = r.content.decode( 'gb2312' )
                     ips.extend( IP181Parser.parseDocument( html ) )
                 time.sleep( 0.5 )
-                
+
         def getXC( ips ):
             for url in WebConf.XICI:
                 headers = { "User-Agent": UserAgent.getUA() }
@@ -67,15 +69,17 @@ class Crawler:
             
         del hThreadTbl[ : ]
         
-        avIPS = ProxyChecker.getAvailableIPTables( ips )
+        ipsNonDuplicate = ProxyChecker.duplicateRemoveIPTables( ips )
+        del ips[ : ]
+        avIPS = ProxyChecker.getAvailableIPTables( ipsNonDuplicate )
         return avIPS
         
 if __name__ == '__main__':
-    s = time.time()
-    avIPS = Crawler.getProxyIP()
-    with open( "iplist.txt", "wb" ) as f:
-        for ip in avIPS:
-            ip = json.dumps( ip, ensure_ascii = False )
-            f.write( bytes( ip, 'utf-8' ) )
-            f.write( b'\r\n' )
-    print( "耗时：%.2f秒" % ( time.time() - s ) )
+    
+    with AutoLock( 'zjdata_crawler' ) as lock:
+        avIPS = Crawler.getProxyIP()
+        with DBHelper() as db:
+            for ip in avIPS:
+                if ip['ABLE']:
+                    db.addIP( ip['IP'], ip['PORT'], ip['HASH'] )
+        del avIPS[ : ]

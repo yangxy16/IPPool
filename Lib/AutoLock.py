@@ -19,13 +19,17 @@ class AutoLock:
             self.f = open( self.filepath, 'wb' )
         except:
             raise RuntimeError( "File Path Error" )
-            
-        if os.name == 'nt':
-            __overlapped = pywintypes.OVERLAPPED()
-            hfile = win32file._get_osfhandle( self.f.fileno() )
-            win32file.LockFileEx( hfile, win32con.LOCKFILE_EXCLUSIVE_LOCK, 0, 0xffff0000, __overlapped )
-        elif os.name == 'posix':
-            fcntl.flock( f.fileno(), fcntl.LOCK_EX )
+        
+        try:
+            if os.name == 'nt':
+                __overlapped = pywintypes.OVERLAPPED()
+                hfile = win32file._get_osfhandle( self.f.fileno() )
+                win32file.LockFileEx( hfile, win32con.LOCKFILE_EXCLUSIVE_LOCK | win32con.LOCKFILE_FAIL_IMMEDIATELY, 0, 0xffff0000, __overlapped )
+            elif os.name == 'posix':
+                fcntl.flock( f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB )
+        except:
+            raise SystemExit( 'Process Running' )
+
         return self
 
     def __exit__( self, type, value, trace ):
