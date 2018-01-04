@@ -21,8 +21,9 @@ MySQL用的5.7版本，windows可以从https://cdn.mysql.com//Downloads/MySQLInstaller/m
 6.数据库操作封装（已完成）
 7.HTTP服务（已完成）
 8.API设计（已完成）
+①http://127.0.0.1:8080/getip/
+②http://127.0.0.1:8080/delip/?hash=****
 
-http://127.0.0.1/getip
 
 引擎启动：
 python Http.py
