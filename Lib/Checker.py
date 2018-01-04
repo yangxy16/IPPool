@@ -19,9 +19,9 @@ class ProxyChecker:
         kmap = {}
         ipsNonDuplicate = []
         for ip in ips:
-            if not kmap.get( ip['HASH'], None ):
+            if not kmap.get( ip['hash'], None ):
                 ipsNonDuplicate.append( ip )
-                kmap[ip['HASH']] = 1
+                kmap[ip['hash']] = 1
         kmap.clear()
         return ipsNonDuplicate
      
@@ -31,11 +31,11 @@ class ProxyChecker:
             ip['ABLE'] = False
             url = 'http://2017.ip138.com/ic.asp'
             headers = { "User-Agent": UserAgent.getUA() }
-            proxies = { 'http': 'http://' + ip['IP'] + ':' + str( ip['PORT'] ) }
+            proxies = { 'http': 'http://' + ip['ip'] + ':' + str( ip['port'] ) }
             try:
                 r = rq.get( url, headers = headers, proxies = proxies, timeout = 10 )
                 html = r.content.decode( 'gb2312' )
-                ip['ABLE'] = ( ip['IP'] == IP138Parser.parseDocument( html ) )
+                ip['ABLE'] = ( ip['ip'] == IP138Parser.parseDocument( html ) )
             except:
                 pass
 

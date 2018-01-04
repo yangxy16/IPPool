@@ -7,6 +7,7 @@
 
 from Lib.DBHelper import DBHelper
 from Lib.Checker import ProxyChecker
+from Lib.AutoLock import AutoLock
 
 class DBCheckerWrapper:
     

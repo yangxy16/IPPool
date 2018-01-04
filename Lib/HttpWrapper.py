@@ -23,7 +23,7 @@ class WebRequestHandler( BaseHTTPRequestHandler ):
                 if ip:
                     self.send_response( 200 )
                     self.end_headers()
-                    self.wfile.write( json.dumps( { 'IP' : ip['ip'], 'PORT' : str( ip['port'] ), 'HASH' : ip['hash'] }, ensure_ascii = False ).encode( 'utf-8' ) )
+                    self.wfile.write( json.dumps( { 'ip' : ip['ip'], 'port' : str( ip['port'] ), 'hash' : ip['hash'] }, ensure_ascii = False ).encode( 'utf-8' ) )
                 else:
                     self.send_response( 404 )
                     self.end_headers()

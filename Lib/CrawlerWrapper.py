@@ -89,5 +89,5 @@ class CrawlerWrapper:
             with DBHelper() as db:
                 for ip in avIPS:
                     if ip['ABLE']:
-                        db.addIP( ip['IP'], ip['PORT'], ip['HASH'] )
+                        db.addIP( ip['ip'], ip['port'], ip['hash'] )
             del avIPS[ : ]
