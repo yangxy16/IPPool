@@ -13,7 +13,6 @@ pip install pymysql
 8.API设计
 
 http://127.0.0.1/getip
-http://127.0.0.1/delip/?hash=123
 
 引擎启动：
 python Http.py
