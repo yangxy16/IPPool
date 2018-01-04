@@ -1,6 +1,10 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+'''
+    数据库封装
+'''
+
 from Lib.Config import DBConf
 import pymysql.cursors
 
@@ -21,6 +25,7 @@ class DBHelper:
         if self.connection:
             self.connection.close()
             
+    #利用MySQL的机制实现随机获取一条数据
     def getRandomIP( self ):
         try :
             with self.connection.cursor() as cursor :

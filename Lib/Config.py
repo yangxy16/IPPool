@@ -1,6 +1,10 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+'''
+    代理IP网站抓取页面配置，为什么要写这么多而不用循环，因为长远考虑，这样更灵活
+'''
+
 import random
 
 class WebConf:

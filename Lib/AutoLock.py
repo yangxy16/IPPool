@@ -1,6 +1,10 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+'''
+    跨平台全局进程锁，防止定时任务多次启动
+'''
+
 import os
 
 if os.name == 'nt':

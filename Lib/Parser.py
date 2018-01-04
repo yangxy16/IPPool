@@ -1,6 +1,10 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+'''
+    页面内容解析器封装
+'''
+
 from bs4 import BeautifulSoup
 import re
 import hashlib

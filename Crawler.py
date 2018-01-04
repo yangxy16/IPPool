@@ -1,6 +1,10 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+'''
+    代理IP抓取Worker
+'''
+
 from Lib.Config import WebConf, UserAgent
 from Lib.Parser import XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
 from Lib.Checker import ProxyChecker
@@ -69,14 +73,17 @@ class Crawler:
             
         del hThreadTbl[ : ]
         
+        #清理重复IP
         ipsNonDuplicate = ProxyChecker.duplicateRemoveIPTables( ips )
         del ips[ : ]
+        
+        #检测IP可用性返回可用IP列表
         avIPS = ProxyChecker.getAvailableIPTables( ipsNonDuplicate )
         return avIPS
         
 if __name__ == '__main__':
     
-    with AutoLock( 'zjdata_crawler' ) as lock:
+    with AutoLock( 'ippool_crawler' ) as lock:
         avIPS = Crawler.getProxyIP()
         with DBHelper() as db:
             for ip in avIPS:

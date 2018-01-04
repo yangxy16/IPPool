@@ -1,6 +1,10 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+'''
+    清理重复IP、检测可用IP封装
+'''
+
 from Lib.Config import UserAgent
 from Lib.Parser import IP138Parser
 
