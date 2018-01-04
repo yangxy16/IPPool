@@ -68,7 +68,6 @@ class Crawler:
         del hThreadTbl[ : ]
         
         avIPS = ProxyChecker.getAvailableIPTables( ips )
-        del ips[ : ]
         return avIPS
         
 if __name__ == '__main__':
