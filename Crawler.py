@@ -1,9 +1,9 @@
 # /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from Config import WebConf, UserAgent
-from Parser import XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
-from Checker import ProxyChecker
+from Lib.Config import WebConf, UserAgent
+from Lib.Parser import XiCiParser, IP181Parser, KuaiIPParser, Data5UParser
+from Lib.Checker import ProxyChecker
 
 import requests as rq
 import time
@@ -53,11 +53,11 @@ class Crawler:
                 time.sleep( 0.5 )
         
         hThreadTbl = [
-            threading.Thread( target = getIP181, args = ( ips, ) ),
-            threading.Thread( target = getXC, args = ( ips, ) ),
-            threading.Thread( target = getKUAI, args = ( ips, ) ),
-            threading.Thread( target = get5U, args = ( ips, ) )
-        ]
+                        threading.Thread( target = getIP181, args = ( ips, ) ),
+                        threading.Thread( target = getXC, args = ( ips, ) ),
+                        threading.Thread( target = getKUAI, args = ( ips, ) ),
+                        threading.Thread( target = get5U, args = ( ips, ) )
+                    ]
         
         for hThread in hThreadTbl:
             hThread.start()
@@ -66,12 +66,16 @@ class Crawler:
             hThread.join()
             
         del hThreadTbl[ : ]
-        return ips
+        
+        avIPS = ProxyChecker.getAvailableIPTables( ips )
+        del ips[ : ]
+        return avIPS
         
 if __name__ == '__main__':
     s = time.time()
+    avIPS = Crawler.getProxyIP()
     with open( "iplist.txt", "wb" ) as f:
-        for ip in Crawler.getProxyIP():
+        for ip in avIPS:
             ip = json.dumps( ip, ensure_ascii = False )
             f.write( bytes( ip, 'utf-8' ) )
             f.write( b'\r\n' )
