@@ -44,10 +44,18 @@ class DBHelper:
         except:
             return None
         
-    def delIP( self, hash ):
+    def delIPByHash( self, hash ):
         try :
             with self.connection.cursor() as cursor :
                 cursor.execute( 'delete from tblIPPool where hash = %s', hash )
+            self.connection.commit()
+        except:
+            pass
+            
+    def delIPByID( self, id ):
+        try :
+            with self.connection.cursor() as cursor :
+                cursor.execute( 'delete from tblIPPool where id = %s', id )
             self.connection.commit()
         except:
             pass

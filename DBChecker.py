@@ -5,8 +5,7 @@
     数据库IP检测Worker，定时清理无效IP
 '''
 
-from Lib.DBHelper import DBHelper
-from Lib.Checker import ProxyChecker
+from Lib.DBCheckerWrapper import DBCheckerWrapper
 
-class DBChecker:
-    pass
+if __name__ == '__main__':
+    DBCheckerWrapper()
