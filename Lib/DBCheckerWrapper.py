@@ -16,8 +16,8 @@ class DBCheckerWrapper:
             with DBHelper() as db:
                 ips = db.getAllIP()
                 avIPS = ProxyChecker.getAvailableIPTables( ips )
-                del ips[ : ]
                 for ip in avIPS:
                     if not ip['ABLE']:
                         db.delIPByID( ip['id'] )
+                del ips[ : ]
                 del avIPS[ : ]

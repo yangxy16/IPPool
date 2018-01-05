@@ -34,10 +34,11 @@ class ProxyChecker:
             proxies = { 'http': 'http://' + ip['ip'] + ':' + str( ip['port'] ) }
             try:
                 r = rq.get( url, headers = headers, proxies = proxies, timeout = 10 )
-                html = r.content.decode( 'gb2312' )
-                ip['ABLE'] = ( ip['ip'] == IP138Parser.parseDocument( html ) )
+                if r.status_code == 200:
+                    html = r.content.decode( 'gb2312' )
+                    ip['ABLE'] = ( ip['ip'] == IP138Parser.parseDocument( html ) )
             except:
-                pass
+                ip['ABLE'] = False
 
         with ThreadPoolExecutor( max_workers = 256 ) as ThreadPool :
             fu_list = []
