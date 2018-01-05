@@ -23,8 +23,4 @@ MySQLÓÃµÄ5.7°æ±¾£¬±í½á¹¹²é¿´ToolsÄ¿Â¼ÏÂµÄippool.sql£¬Ö±½Óµ¼Èë¼´¿É£¬¾ßÌåÅäÖÃÇë²é¿
   
 ## ÒýÇæÆô¶¯
 * python Http.py
-* ÐÞ¸Äwintask.batÀïÃæµÄÂ·¾¶£¬´´½¨¶¨Ê±ÈÎÎñ
-```
-    ¢Ù¶¨Ê±ÈÎÎñ£¨15·ÖÖÓ£© python Crawler.py
-    ¢Ú¶¨Ê±ÈÎÎñ£¨30·ÖÖÓ£© python DBChecker.py
-```
+* ÐÞ¸ÄIPPool_Crawler.xml¡¢IPPool_DBChecker.xmlÀïÃæµÄÂ·¾¶¡¢ÓÃ»§µÈÐÅÏ¢£¬ÔËÐÐwintask.bat´´½¨¶¨Ê±ÈÎÎñ
