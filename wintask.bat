@@ -1,0 +1,2 @@
+schtasks /create /sc minute /mo 15 /tn "IPPool_Crawler" /tr "C:\Users\DAYU\AppData\Local\Programs\Python\Python36\python.exe D:\IPPool\Crawler.py"
+schtasks /create /sc minute /mo 30 /tn "IPPool_DBChecker" /tr "C:\Users\DAYU\AppData\Local\Programs\Python\Python36\python.exe D:\IPPool\DBChecker.py"
