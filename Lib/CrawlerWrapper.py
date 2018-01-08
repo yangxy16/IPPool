@@ -25,37 +25,49 @@ class Crawler:
         def getIP181( ips ):
             for url in WebConf.IP181:
                 headers = { "User-Agent": UserAgent.getUA() }
-                r = rq.get( url, headers = headers )
-                if r.status_code == 200:
-                    html = r.content.decode( 'gb2312' )
-                    ips.extend( IP181Parser.parseDocument( html ) )
+                try:
+                    r = rq.get( url, headers = headers )
+                    if r.status_code == 200:
+                        html = r.content.decode( 'gb2312' )
+                        ips.extend( IP181Parser.parseDocument( html ) )
+                except:
+                    pass
                 time.sleep( 0.5 )
 
         def getXC( ips ):
             for url in WebConf.XICI:
                 headers = { "User-Agent": UserAgent.getUA() }
-                r = rq.get( url, headers = headers )
-                if r.status_code == 200:
-                    html = r.content.decode( 'utf-8' )
-                    ips.extend( XiCiParser.parseDocument( html ) )
+                try:
+                    r = rq.get( url, headers = headers )
+                    if r.status_code == 200:
+                        html = r.content.decode( 'utf-8' )
+                        ips.extend( XiCiParser.parseDocument( html ) )
+                except:
+                    pass
                 time.sleep( 0.5 )
         
         def getKUAI( ips ):
             for url in WebConf.KUAIIP:
                 headers = { "User-Agent": UserAgent.getUA() }
-                r = rq.get( url, headers = headers )
-                if r.status_code == 200:
-                    html = r.content.decode( 'utf-8' )
-                    ips.extend( KuaiIPParser.parseDocument( html ) )
+                try:
+                    r = rq.get( url, headers = headers )
+                    if r.status_code == 200:
+                        html = r.content.decode( 'utf-8' )
+                        ips.extend( KuaiIPParser.parseDocument( html ) )
+                except:
+                    pass
                 time.sleep( 0.5 )
         
         def get5U( ips ):
             for url in WebConf.DATA5U:
                 headers = { "User-Agent": UserAgent.getUA() }
-                r = rq.get( url, headers = headers )
-                if r.status_code == 200:
-                    html = r.content.decode( 'utf-8' )
-                    ips.extend( Data5UParser.parseDocument( html ) )
+                try:
+                    r = rq.get( url, headers = headers )
+                    if r.status_code == 200:
+                        html = r.content.decode( 'utf-8' )
+                        ips.extend( Data5UParser.parseDocument( html ) )
+                except:
+                    pass
                 time.sleep( 0.5 )
         
         hThreadTbl = [
